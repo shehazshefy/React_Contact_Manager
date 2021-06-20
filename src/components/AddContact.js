@@ -12,7 +12,7 @@ export default class AddContact extends React.Component {
             alert("All the fields are mandatory!");
             return;
         }
-        this.props.addContactHandler(this.state);
+        this.props.addContactHandlerProp(this.state);
         this.setState({name:"", email:""})
     }
 

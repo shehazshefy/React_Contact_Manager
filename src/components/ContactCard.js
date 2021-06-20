@@ -11,7 +11,11 @@ const CardContact = (props) => {
                 <div className='header'>{name}</div>
                 <div>{email}</div>
             </div>
-            <i className='right floated content trash alternate outline icon' style={{ color: "red", marginTop: "7px" }}></i>
+            <i 
+                className='right floated content trash alternate outline icon' 
+                style={{ color: "red", marginTop: "7px" }}
+                onClick={() => props.clickHandlerPropFromCL(id)}>
+            </i>
             {/* <div className='right floated content'>
                     <i className='trash alternate outline icon' style={{ color: "red", marginTop: "7px" }}></i>
                 </div> */}
