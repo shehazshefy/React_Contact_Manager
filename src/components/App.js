@@ -5,11 +5,30 @@ import AddContact from './AddContact';
 import ContactList from './ContactList';
 
 function App() {
+
+const contacts = [
+  {
+    id: "1",
+    name: "Shehaz",
+    email: "shehaz@gmail.com"
+  },
+  {
+    id: "2",
+    name: "Shefy",
+    email: "shefy@gmail.com"
+  }
+];
+
   return (
-    <div className='ui container'>
+    <div>
       <Header />
-      <AddContact />
-      <ContactList />
+      <div className='ui container'>
+        <AddContact />
+        <ContactList contactsProp = {contacts}/> 
+        {/* Passing contact list to ContactList as a prop */}
+        
+      </div>
+      
     </div>
   );
 }
