@@ -14,6 +14,9 @@ export default class AddContact extends React.Component {
         }
         this.props.addContactHandlerProp(this.state);
         this.setState({name:"", email:""})
+        //console.log(this.props); //we can see history action PUSH
+        this.props.history.push('/');
+
     }
 
     render() {

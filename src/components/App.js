@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import {v4 as uuid} from 'uuid';
 import './App.css';
 import Header from './Header';
@@ -33,17 +34,60 @@ function App() {
   }, [contacts]); //Save the data to local storage.
 
   return (
-    <div>
+    <>
+
+
+      <Router>
+        <Header />
+        <div className='ui container'>
+          <Switch>
+            <Route
+              path='/' 
+              exact 
+              render = {(props) => (<ContactList {...props} contactsPropFromApp={contacts} getContactIdPropFromApp={removeContactHandler}/>)}
+            />
+            <Route
+              path='/add' 
+              render = {(props) => (<AddContact {...props} addContactHandlerProp={addContactHandler}/>)}
+            />
+          </Switch>
+        </div>
+      </Router>
+
+
+      {/* -----------------Bad way to send props inside Router. Causes performance issue---------------------
+      <Router>
+        <Header />
+        <div className='ui container'>
+          <Switch>
+            <Route
+              path='/' 
+              exact 
+              component={() => (
+                <ContactList contactsPropFromApp={contacts} getContactIdPropFromApp={removeContactHandler}/>
+              )} 
+            />
+            <Route
+              path='/add' 
+              component={() => (
+                <AddContact addContactHandlerProp={addContactHandler}/>
+              )} 
+            />
+          </Switch>
+        </div>
+      </Router> */}
+
+
+      {/* ----------------Without Routing------------------------
       <Header />
       <div className='ui container'>
         <AddContact addContactHandlerProp={addContactHandler}/>
         <ContactList contactsPropFromApp={contacts} getContactIdPropFromApp={removeContactHandler}/> 
-        {/* Passing contact list to ContactList as a prop */}
-        {/* getting id : frm CC - CL - App */}
-        
-      </div>
+        Passing contact list to ContactList as a prop
+        getting id : frm CC - CL - App
+      </div> */}
       
-    </div>
+    </>
   );
 }
 
