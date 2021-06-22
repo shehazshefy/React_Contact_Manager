@@ -11,11 +11,25 @@ import ContactDetail from './ContactDetail';
 function App() {
   const LOCAL_STORAGE_KEY = "contactsKey";
   const [contacts, setContacts] = useState([]);
-
+  
+  /*
+  //v1 - To add the new Contacts - Deprecated
   const addContactHandler = (contact) => {
     console.log(contact)
     setContacts([...contacts, { id: uuid(), ...contact }]);
   }
+  */
+
+  //v2 - To post the new contacts to json server
+  const addContactHandler = async (contact) => {
+    console.log(contact)
+    const request = {
+      id: uuid(),
+      ...contact,
+    }
+    const response = await api.post("/contacts", request);
+    setContacts([...contacts, response.data]);
+  };
 
   const removeContactHandler = (id) => {
     const newContactsList = contacts.filter(
