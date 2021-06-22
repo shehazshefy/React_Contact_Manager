@@ -7,9 +7,9 @@ import Header from './Header';
 import AddContact from './AddContact';
 import ContactList from './ContactList';
 import ContactDetail from './ContactDetail';
+import EditContact from './EditContact';
 
 function App() {
-  const LOCAL_STORAGE_KEY = "contactsKey";
   const [contacts, setContacts] = useState([]);
   
   /*
@@ -29,6 +29,17 @@ function App() {
     }
     const response = await api.post("/contacts", request);
     setContacts([...contacts, response.data]);
+  };
+
+  //To update the contacts.
+  const updateContactHandler = async(contact) => {
+    const response = await api.put(`/contacts/${contact.id}`, contact);
+    const {id, name, email} = response.data;
+    setContacts(
+      contacts.map((contact) => {
+      return contact.id === id ? {...response.data} : contact;
+    })
+    );
   };
 
   /*
@@ -100,6 +111,12 @@ function App() {
               path='/add' 
               render = {(props) => (<AddContact {...props} addContactHandlerProp={addContactHandler}/>)}
             />
+
+            <Route
+              path='/edit'
+              render= {(props) => (<EditContact {...props} updateContactHandlerProp={updateContactHandler}/>)}
+            />
+
             <Route path='/contact/:id' component={ContactDetail}/>
           </Switch>
         </div>

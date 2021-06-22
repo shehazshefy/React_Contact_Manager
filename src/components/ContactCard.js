@@ -16,12 +16,18 @@ const CardContact = (props) => {
             </div>
             <i 
                 className='right floated content trash alternate outline icon' 
-                style={{ color: "red", marginTop: "7px" }}
+                style={{ color: "red", marginTop: "7px", marginLeft: "10px" }}
                 onClick={() => props.clickHandlerPropFromCL(id)}>
             </i>
-            {/* <div className='right floated content'>
-                    <i className='trash alternate outline icon' style={{ color: "red", marginTop: "7px" }}></i>
-                </div> */}
+
+            <Link to={{pathname:'/edit', state: {contact: props.contactsPropFromCL}}}>
+                <i 
+                    className='right floated edit alternate outline icon' 
+                    style={{ color: "blue", marginTop: "7px" }}>
+                </i>
+            </Link>
+            
+
         </div>
     );
 }
