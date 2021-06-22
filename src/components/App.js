@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import {v4 as uuid} from 'uuid';
+import api from '../api/contacts'
 import './App.css';
 import Header from './Header';
 import AddContact from './AddContact';
@@ -25,13 +26,33 @@ function App() {
     setContacts(newContactsList);
   };
 
+  /*
+  //Fetch Data From LocalStorage and feed it to the application
   useEffect( () => {
     const retrivedContacts = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
     if(retrivedContacts) setContacts(retrivedContacts);
   }, []);
+  */
+
+  //retrieve contacts from json server starts
+ const retrieveContacts = async () => {
+   const response = await api.get("/contacts");
+   return response.data;
+ }
+
+  useEffect(() => {
+    const getAllContacts = async() => {
+      const allContacts = await retrieveContacts();
+      if(allContacts) setContacts(allContacts);
+    };
+    
+    getAllContacts();
+  },[]);
+
+  //retrieve contacts from json server ends
 
   useEffect( () => {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(contacts));
+    //localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(contacts));
   }, [contacts]); //Save the data to local storage.
 
   return (
