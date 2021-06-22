@@ -31,7 +31,21 @@ function App() {
     setContacts([...contacts, response.data]);
   };
 
+  /*
+  //v1 - To delete contacts - Deprecated
   const removeContactHandler = (id) => {
+    const newContactsList = contacts.filter(
+      (contact) => {
+        return (contact.id !== id);
+      }
+    );
+    setContacts(newContactsList);
+  };
+  */
+
+  //v2 - Delete Contact - post delete request
+  const removeContactHandler = async (id) => {
+    await api.delete(`/contacts/${id}`);
     const newContactsList = contacts.filter(
       (contact) => {
         return (contact.id !== id);
@@ -65,9 +79,9 @@ function App() {
 
   //retrieve contacts from json server ends
 
-  useEffect( () => {
+  // useEffect( () => {
     //localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(contacts));
-  }, [contacts]); //Save the data to local storage.
+  // }, [contacts]); //Save the data to local storage.
 
   return (
     <>
