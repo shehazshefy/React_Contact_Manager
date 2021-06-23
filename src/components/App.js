@@ -11,6 +11,10 @@ import EditContact from './EditContact';
 
 function App() {
   const [contacts, setContacts] = useState([]);
+
+  //useState hook for the searchContact
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
   
   /*
   //v1 - To add the new Contacts - Deprecated
@@ -64,6 +68,26 @@ function App() {
     );
     setContacts(newContactsList);
   };
+  
+  const searchHandler = (searchTerm) => {
+    // console.log(searchTerm)
+    setSearchTerm(searchTerm);
+    if(searchTerm !== "") {
+      const newContactList = contacts.filter (
+        (contact) => {
+          //Contact is a JS Object. We need to search on their values only!
+          return Object.values(contact)
+            .join(" ")
+            .toLowerCase()
+            .includes(searchTerm);
+        }
+      );
+      setSearchResults(newContactList);
+    }
+    else {
+      setSearchResults(contacts)
+    }
+  }
 
   /*
   //Fetch Data From LocalStorage and feed it to the application
@@ -97,16 +121,25 @@ function App() {
   return (
     <>
 
-
       <Router>
         <Header />
         <div className='ui container'>
           <Switch>
+
             <Route
               path='/' 
               exact 
-              render = {(props) => (<ContactList {...props} contactsPropFromApp={contacts} getContactIdPropFromApp={removeContactHandler}/>)}
+              render = {(props) => (
+                <ContactList 
+                  {...props} 
+                  contactsPropFromApp={searchTerm.length < 1 ? contacts : searchResults} 
+                  getContactIdPropFromApp = {removeContactHandler}
+                  searchTermPropFromApp = {searchTerm}
+                  searchResultPropFromApp = {searchHandler}
+                />
+              )}
             />
+
             <Route
               path='/add' 
               render = {(props) => (<AddContact {...props} addContactHandlerProp={addContactHandler}/>)}
@@ -117,7 +150,11 @@ function App() {
               render= {(props) => (<EditContact {...props} updateContactHandlerProp={updateContactHandler}/>)}
             />
 
-            <Route path='/contact/:id' component={ContactDetail}/>
+            <Route
+              path='/contact/:id' 
+              component={ContactDetail}
+            />
+
           </Switch>
         </div>
       </Router>
